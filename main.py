@@ -1,11 +1,8 @@
 import cv2
 from inference_sdk import InferenceHTTPClient
 import pytesseract
-from pathlib import Path
 import os
-from PIL import Image
 import base64
-import io
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -41,7 +38,7 @@ def get_pothole_prediction(image_path):
     from PIL import Image
 
     img = Image.open(image_path)
-    img = img.quantize(colors=64)  # Уменьшение до 256 цветов
+    img = img.quantize(colors=64)  # Уменьшение до 64 цветов
     processed_image_path = 'reduced_colors_image.png'
     img.save(processed_image_path)
 
@@ -50,7 +47,6 @@ def get_pothole_prediction(image_path):
 
     # Load the image
     image = cv2.imread(image_path)
-    # cv2.imshow("Inference Result", image)
 
     if len(result['predictions']) != 0:
         # Iterate over the predictions
@@ -69,9 +65,6 @@ def get_pothole_prediction(image_path):
             # Put the class label and confidence score on the image
             label = f"{class_label}: {confidence:.2f}"
             cv2.putText(image, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-
-        # cv2.imshow("result", image)
-        # cv2.waitKey()
 
         np_array = image.copy()
         base64_string = base64.b64encode(np_array).decode('utf-8')
@@ -119,14 +112,7 @@ def check_road(roads):
                     error_roads.append(error)
             except Exception as e:
                 print(f"Error processing {filename}: {str(e)}")
-    # cv2.destroyAllWindows()
     return error_roads
-
-
-
-# print(get_pothole_prediction(image_path = "itc2024/road/3.png"))
-
-# print(get_text_extracted(image_path="itc2024/assets/img_6.png"))
 
 
 if __name__ == "__main__":
