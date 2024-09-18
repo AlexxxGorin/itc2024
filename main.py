@@ -6,7 +6,7 @@ import base64
 from fastapi import FastAPI
 
 app = FastAPI()
-@app.post("/decide-road")
+@app.post("/get-prediction-for-potholes")
 def decide_road(id):
     '''
     Gets id value and returns the right pash for that value
