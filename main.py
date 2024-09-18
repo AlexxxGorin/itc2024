@@ -70,8 +70,8 @@ def get_pothole_prediction(image_path):
             label = f"{class_label}: {confidence:.2f}"
             cv2.putText(image, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
 
-        cv2.imshow("result", image)
-        cv2.waitKey()
+        # cv2.imshow("result", image)
+        # cv2.waitKey()
 
         np_array = image.copy()
         base64_string = base64.b64encode(np_array).decode('utf-8')
@@ -119,7 +119,16 @@ def check_road(roads):
                     error_roads.append(error)
             except Exception as e:
                 print(f"Error processing {filename}: {str(e)}")
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
     return error_roads
 
 
+
+# print(get_pothole_prediction(image_path = "itc2024/road/3.png"))
+
+# print(get_text_extracted(image_path="itc2024/assets/img_6.png"))
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
