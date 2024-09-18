@@ -123,9 +123,3 @@ def check_road(roads):
     return error_roads
 
 
-
-# print(get_pothole_prediction(image_path = "itc2024/road/3.png"))
-
-# print(get_text_extracted(image_path="itc2024/assets/img_6.png"))
-
-
